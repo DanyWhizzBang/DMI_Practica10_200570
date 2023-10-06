@@ -15,7 +15,7 @@
 
 ## Capturas de Pantalla
 <p align="center">
-  <img src="https://github.com/DanyWhizzBang/DMI_Practica9_20570/blob/main/assets/ss1.png?raw=true">
+  <img src="https://github.com/DanyWhizzBang/DMI_Practica10_200570/blob/main/assets/ss1.png?raw=true">
 </p>
 
 
