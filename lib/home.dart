@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:practica8_200570/media_list.dart';
+import 'package:practica8_200570/common/MediaProvider.dart';
+import 'package:practica8_200570/model/Media.dart';
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -8,6 +11,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  final MediaProvider movieProvider = new MovieProvider();
+  final MediaProvider showProvider = new ShowProvider();
+
+  MediaType mediaType = MediaType.movie;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,14 +38,24 @@ class _HomeState extends State<Home> {
             DrawerHeader(child: Material()),
             ListTile(
               title: Text("Peliculas"),
+              selected: mediaType == MediaType.movie,
               trailing: Icon(Icons.local_movies),
+              onTap: (){
+                _changeMediaType(MediaType.movie);
+                Navigator.of(context).pop();
+              },
             ),
             Divider(
               height: 5.0,
             ),
             ListTile(
               title: Text("Televisión"),
+            selected: mediaType == MediaType.show,
               trailing: Icon(Icons.live_tv_rounded),
+              onTap: (){
+                _changeMediaType(MediaType.show);
+                Navigator.of(context).pop();
+              },
             ),
             Divider(
               height: 5.0,
@@ -44,7 +63,7 @@ class _HomeState extends State<Home> {
             ListTile(
               title: Text("Cerrar"),
               trailing: Icon(Icons.close),
-              onTap: () => Navigator.of(context).pop(),
+              
             ),
           ],
         ),
@@ -68,4 +87,22 @@ class _HomeState extends State<Home> {
           icon: Icon(Icons.star_rounded), label: "Mejor Valoradas"),
     ];
   }
+
+  void _changeMediaType(MediaType type){
+    if(mediaType != type){
+      setState(() {
+        mediaType = type;
+      });
+    }
+  }
+  List <Widget>_changeMediaType(){
+    return (mediaType == MediaType.movie)?
+    <Widget>[
+      new MediaList(movieProvider);
+    ]:
+    <Widget>[
+      new MediaList(showProvider);
+    ];
+  }
+
 }

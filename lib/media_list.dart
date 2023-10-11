@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:practica8_200570/common/HttpHandler.dart';
+import 'package:practica8_200570/media_detail.dart';
 import 'package:practica8_200570/model/Media.dart';
 import 'package:practica8_200570/media_list_item.dart';
-
+import 'package:practica8_200570/common/MediaProvider.dart';
+ 
 class MediaList extends StatefulWidget{
+  final MediaProvider provider;
+  MediaList(this.provider);
+
   @override
   _MediaListState createState()=> new _MediaListState();
 
@@ -15,13 +20,17 @@ class _MediaListState extends State<MediaList>{
   @override
   void initState(){
     super.initState();
-    loadMovies();
+    loadMedia();
+  }
+  @override
+  void didUpdateWidget(MediaList oldWidget){
+    super.didUpdateWidget(oldWidget);
   }
 
-  void loadMovies() async{
-    var movies = await HttpHandler().fetchMovies();
+  void loadMedia() async{
+    var media = await widget.provider.fetchMedia();
     setState(() {
-      _media.addAll(movies);
+      _media.addAll(media);
     });
   }
 
@@ -31,7 +40,14 @@ class _MediaListState extends State<MediaList>{
       child: new ListView.builder(
         itemCount: _media.length,
         itemBuilder: (BuildContext context, int index){
-          return new MediaListItem(_media[index]);
+          return new ElevatedButton(         
+             child: new MediaListItem(_media[index]),
+              onPressed:(){
+                Navigator.push(context, new MaterialPageRoute(builder: (context){
+                  return new MediaDetail(_media[index]);
+                }));
+              },
+          );
         }
         ),
     );
